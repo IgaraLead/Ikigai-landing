@@ -15,8 +15,16 @@ const costByRole = [
 ]
 
 const comparison = [
-  { title: 'Processo tradicional', tagline: 'Lento, caro e incerto', negative: true },
-  { title: 'Professional Match', tagline: 'Rápido, assertivo e econômico', negative: false },
+  {
+    title: 'Processo tradicional',
+    tagline: 'Lento, caro e incerto',
+    negative: true,
+  },
+  {
+    title: 'Professional Match',
+    tagline: 'Rápido, assertivo e econômico',
+    negative: false,
+  },
 ]
 
 const PARALLAX_PX = 0.1
@@ -28,6 +36,7 @@ function useProfessionalMatchParallax() {
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
+
     const tick = () => {
       rafRef.current = 0
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -42,9 +51,11 @@ function useProfessionalMatchParallax() {
       const c = Math.max(-56, Math.min(56, y))
       el.style.setProperty('--pm-parallax-y', `${c.toFixed(2)}px`)
     }
+
     const onFrame = () => {
       if (!rafRef.current) rafRef.current = requestAnimationFrame(tick)
     }
+
     tick()
     window.addEventListener('scroll', onFrame, { passive: true })
     window.addEventListener('resize', onFrame)
@@ -60,6 +71,7 @@ function useProfessionalMatchParallax() {
 
 export default function ProfessionalMatch() {
   const sectionRef = useProfessionalMatchParallax()
+
   return (
     <section
       ref={sectionRef}
@@ -80,7 +92,10 @@ export default function ProfessionalMatch() {
           />
         </div>
       </div>
-      <div className="pm-degrade pointer-events-none absolute inset-0" aria-hidden />
+      <div
+        className="pm-degrade pointer-events-none absolute inset-0"
+        aria-hidden
+      />
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-14 max-w-3xl mx-auto">
           <h2
@@ -96,19 +111,22 @@ export default function ProfessionalMatch() {
               ®
             </sup>
           </h2>
-          <p className="pm-narr text-lg font-medium mt-4">Encontro de empresas estratégicas que atraem talentos</p>
+          <p className="pm-narr text-lg font-medium mt-4">
+            Encontro de empresas estratégicas que atraem talentos
+          </p>
           <p className="pm-credit mt-2 text-sm">
             Com <strong className="pm-name font-medium">Karina Rodrigues</strong>
           </p>
         </div>
+
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 mb-10">
           <div className="glass-card pm-card p-8 md:p-10">
             <h3 className="pm-h3 font-display text-xl font-bold mb-4">
               Turnover alto não é acaso: é falta de estratégia
             </h3>
             <p className="pm-body text-sm leading-relaxed md:text-base">
-              Contratar exige tempo, treinamento e adaptação. Quando o processo não é assertivo, o custo fica
-              invisível — e segue crescendo.
+              Contratar exige tempo, treinamento e adaptação. Quando o processo não é assertivo, o custo
+              fica invisível — e segue crescendo.
             </p>
             <ul className="mt-6 space-y-3">
               {painPoints.map((item) => (
@@ -119,6 +137,7 @@ export default function ProfessionalMatch() {
               ))}
             </ul>
           </div>
+
           <div className="glass-card pm-card p-8 md:p-10">
             <h3 className="pm-h3 font-display text-xl font-bold mb-2">Contratações erradas têm preço</h3>
             <p className="pm-body text-sm mb-6">
@@ -138,6 +157,7 @@ export default function ProfessionalMatch() {
             </p>
           </div>
         </div>
+
         <div className="grid md:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
           {comparison.map((col) => (
             <div
@@ -148,7 +168,9 @@ export default function ProfessionalMatch() {
                   : 'glass-card pm-card pm-compare-pos p-6 md:p-8'
               }
             >
-              <p className="pm-compare-label text-xs font-semibold uppercase tracking-wider mb-1">{col.title}</p>
+              <p className="pm-compare-label text-xs font-semibold uppercase tracking-wider mb-1">
+                {col.title}
+              </p>
               <p
                 className={
                   col.negative
@@ -161,6 +183,7 @@ export default function ProfessionalMatch() {
             </div>
           ))}
         </div>
+
         <div className="text-center max-w-2xl mx-auto">
           <div className="glass-card pm-card pm-card-highlight p-8 md:p-10">
             <p className="pm-sol-title font-display text-2xl md:text-3xl font-bold">Apresento a solução</p>
@@ -180,3 +203,4 @@ export default function ProfessionalMatch() {
     </section>
   )
 }
+

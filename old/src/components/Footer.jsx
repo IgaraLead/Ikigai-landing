@@ -1,17 +1,20 @@
 import { IkigaiLogo } from './Logo'
 
-const socialIconClass = 'glass-btn w-10 h-10 rounded-full flex items-center justify-center text-primary-200/90'
+const socialIconClass =
+  'glass-btn w-10 h-10 rounded-full flex items-center justify-center text-primary-800 dark:text-primary-200/90'
 
 export default function Footer() {
   const year = new Date().getFullYear()
+
   return (
-    <footer className="py-12 px-8 lg:px-12 mt-8 overflow-visible text-mist/90">
+    <footer className="py-12 px-8 lg:px-12 mt-8 overflow-visible text-primary-900 dark:text-mist/90">
       <div className="max-w-7xl mx-auto">
         <div className="glass-card p-8 md:p-10 !overflow-visible">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <IkigaiLogo flowerSize={38} />
             </div>
+
             <div className="flex items-center gap-4">
               <a
                 href="https://wa.me/5511994782908"
@@ -68,17 +71,18 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div className="border-t border-primary-800/40 mt-6 pt-6 text-center max-w-2xl mx-auto">
-            <p className="text-sm sm:text-base leading-relaxed text-mist/90">
+
+          <div className="border-t border-white/25 dark:border-primary-800/40 mt-6 pt-6 text-center max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base leading-relaxed text-neutral-700 dark:text-mist/90">
               &copy; {year} Karina Rodrigues. Todos os direitos reservados.
             </p>
-            <p className="text-sm sm:text-base leading-relaxed text-mist/95 mt-2.5">
+            <p className="text-sm sm:text-base leading-relaxed text-neutral-800 dark:text-mist/95 mt-2.5">
               Site desenvolvido com ❤️ pela{' '}
               <a
                 href="https://igaralead.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-accent-400 underline decoration-accent-500/50 hover:decoration-accent-500 underline-offset-[3px]"
+                className="font-semibold text-accent-700 dark:text-accent-400 underline decoration-accent-500/50 hover:decoration-accent-500 underline-offset-[3px]"
               >
                 IgaraLead
               </a>
