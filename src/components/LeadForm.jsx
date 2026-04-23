@@ -128,7 +128,7 @@ export default function LeadForm() {
         <div className="grid lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2 flex flex-col justify-center">
             <span className="text-sm font-semibold text-accent-500 uppercase tracking-wider">Vamos Conversar</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-mist mt-3 mb-6">Pronta para transformar sua equipe?</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-mist mt-3 mb-6">Pronto para transformar sua equipe?</h2>
             <p className="text-primary-200/90 leading-relaxed mb-8">
               Preencha os campos e toque em enviar: vamos abrir o WhatsApp com a mensagem já pronta (veja a prévia ao
               lado). Só resta enviar a conversa na aplicação.
