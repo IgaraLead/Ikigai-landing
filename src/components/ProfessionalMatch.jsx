@@ -83,7 +83,7 @@ export default function ProfessionalMatch() {
         <div className="pm-parallax-bg">
           <img
             className="pm-section-bg-img"
-            src="/pm-section-bg.jpg"
+            src={`${import.meta.env.BASE_URL}pm-section-bg.jpg`}
             alt=""
             width={1024}
             height={682}

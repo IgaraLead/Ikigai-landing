@@ -7,7 +7,7 @@ export default function About() {
             <div className="flex justify-center">
               <div className="w-64 h-80 md:w-72 md:h-96 rounded-2xl overflow-hidden shadow-lg ring-1 ring-primary-900/5">
                 <img
-                  src="/karina-rodrigues.jpg"
+                  src={`${import.meta.env.BASE_URL}karina-rodrigues.jpg`}
                   alt="Karina Rodrigues"
                   className="block h-full w-full min-h-0 object-cover object-top"
                 />
