@@ -1,3 +1,6 @@
+import { useEffect, useRef } from 'react'
+import { LANDING_PARALLAX_FACTOR } from '../constants/parallax'
+
 const services = [
   {
     icon: (
@@ -62,9 +65,65 @@ const services = [
 ]
 
 export default function Services() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
+    let rafId = 0
+
+    const tick = () => {
+      rafId = 0
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduce) {
+        el.style.setProperty('--services-parallax-y', '0px')
+        return
+      }
+      const rect = el.getBoundingClientRect()
+      const sectionTravel = window.innerHeight + rect.height
+      const progress = (window.innerHeight - rect.top) / sectionTravel
+      const centeredProgress = progress - 0.5
+      const y = centeredProgress * 112 * LANDING_PARALLAX_FACTOR
+      const clampedY = Math.max(-42, Math.min(42, y))
+      el.style.setProperty('--services-parallax-y', `${clampedY.toFixed(2)}px`)
+    }
+
+    const onFrame = () => {
+      if (!rafId) rafId = requestAnimationFrame(tick)
+    }
+
+    tick()
+    window.addEventListener('scroll', onFrame, { passive: true })
+    window.addEventListener('resize', onFrame)
+    return () => {
+      window.removeEventListener('scroll', onFrame)
+      window.removeEventListener('resize', onFrame)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
-    <section id="palestras" className="py-20 px-8 lg:px-12 overflow-visible text-mist/95">
-      <div className="max-w-7xl mx-auto">
+    <section
+      ref={sectionRef}
+      id="palestras"
+      className="section-services relative py-20 px-8 lg:px-12 overflow-hidden text-mist/95"
+    >
+      <div className="services-parallax-wrap pointer-events-none" aria-hidden>
+        <div className="services-parallax-bg">
+          <img
+            src={`${import.meta.env.BASE_URL}karina-rodrigues.jpg`}
+            alt=""
+            className="services-bg-img"
+            width={768}
+            height={1024}
+            fetchPriority="low"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div className="services-degrade pointer-events-none absolute inset-0" aria-hidden />
+      <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-sm font-semibold text-accent-500 uppercase tracking-wider">
             O que Ofereço

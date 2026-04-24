@@ -12,8 +12,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <About />
         <ProfessionalMatch />
+        <About />
         <Services />
         <LeadForm />
       </main>

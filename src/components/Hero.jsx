@@ -1,19 +1,70 @@
+import { useEffect, useRef } from 'react'
 import { IkigaiFlower } from './Logo'
+import { LANDING_PARALLAX_FACTOR } from '../constants/parallax'
 
 const HERO_BG =
   'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1920&q=80'
 
 export default function Hero() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
+    let rafId = 0
+
+    const tick = () => {
+      rafId = 0
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduce) {
+        el.style.setProperty('--hero-parallax-y', '0px')
+        return
+      }
+      const rect = el.getBoundingClientRect()
+      const viewportHalf = window.innerHeight / 2
+      const sectionHalf = rect.top + rect.height / 2
+      const offset = viewportHalf - sectionHalf
+      const y = offset * LANDING_PARALLAX_FACTOR
+      const clampedY = Math.max(-72, Math.min(72, y))
+      el.style.setProperty('--hero-parallax-y', `${clampedY.toFixed(2)}px`)
+    }
+
+    const onFrame = () => {
+      if (!rafId) rafId = requestAnimationFrame(tick)
+    }
+
+    tick()
+    window.addEventListener('scroll', onFrame, { passive: true })
+    window.addEventListener('resize', onFrame)
+    return () => {
+      window.removeEventListener('scroll', onFrame)
+      window.removeEventListener('resize', onFrame)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
     <section
+      ref={sectionRef}
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center pt-28 pb-20 px-8 lg:px-12 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center py-20 px-8 lg:px-12 overflow-hidden"
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute left-1/2 top-1/2 h-[125%] w-[125%] -translate-x-1/2 -translate-y-1/2 bg-cover bg-center bg-no-repeat blur-md sm:blur-lg"
-          style={{ backgroundImage: `url(${HERO_BG})` }}
-        />
+          className="absolute left-1/2 top-1/2 h-[130%] w-[130%] blur-md sm:blur-lg"
+          style={{
+            transform: 'translate3d(-50%, calc(-50% + var(--hero-parallax-y, 0px)), 0)',
+          }}
+        >
+          <img
+            src={HERO_BG}
+            alt=""
+            className="h-full w-full object-cover object-center"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
       </div>
       <div
         id="hero-overlay"

@@ -4,43 +4,52 @@ import { SITE_URL } from '../config/site'
 
 const navLinks = [
   { label: 'Início', href: '#inicio' },
-  { label: 'Sobre', href: '#sobre' },
   { label: 'Professional Match', href: '#professional-match' },
+  { label: 'Sobre', href: '#sobre' },
   { label: 'Palestras', href: '#palestras' },
   { label: 'Contato', href: '#contato' },
 ]
 
 const OVERLAY_ID = 'hero-overlay'
+const HERO_VISIBILITY_THRESHOLD = 0.3
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const [overlayInView, setOverlayInView] = useState(true)
+  const [isHeroMoreThanThresholdVisible, setIsHeroMoreThanThresholdVisible] = useState(true)
 
   useLayoutEffect(() => {
     const el = document.getElementById(OVERLAY_ID)
     if (!el) {
-      setOverlayInView(false)
+      setIsHeroMoreThanThresholdVisible(false)
       return
     }
-    const r = el.getBoundingClientRect()
-    const inView = r.top < window.innerHeight && r.bottom > 0
-    setOverlayInView(inView)
+
+    const getVisibleRatio = () => {
+      const rect = el.getBoundingClientRect()
+      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+      const safeVisibleHeight = Math.max(0, visibleHeight)
+      return rect.height > 0 ? safeVisibleHeight / rect.height : 0
+    }
+
+    setIsHeroMoreThanThresholdVisible(getVisibleRatio() > HERO_VISIBILITY_THRESHOLD)
 
     const io = new IntersectionObserver(
       ([e]) => {
-        setOverlayInView(e.isIntersecting)
+        setIsHeroMoreThanThresholdVisible(
+          e.isIntersecting && e.intersectionRatio > HERO_VISIBILITY_THRESHOLD
+        )
       },
-      { root: null, threshold: 0, rootMargin: '0px' }
+      { root: null, threshold: [0, HERO_VISIBILITY_THRESHOLD, 1], rootMargin: '0px' }
     )
     io.observe(el)
     return () => io.disconnect()
   }, [])
 
   useEffect(() => {
-    if (overlayInView) setOpen(false)
-  }, [overlayInView])
+    if (isHeroMoreThanThresholdVisible) setOpen(false)
+  }, [isHeroMoreThanThresholdVisible])
 
-  const mainHidden = overlayInView
+  const mainHidden = isHeroMoreThanThresholdVisible
 
   return (
     <nav
@@ -68,7 +77,12 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-primary-200/90 hover:text-mist transition-colors"
+                className={[
+                  'text-sm font-medium transition-colors',
+                  link.href === '#professional-match'
+                    ? 'nav-link-professional-match text-[#c6ba9f] hover:text-[#e1d7c0]'
+                    : 'text-primary-200/90 hover:text-mist',
+                ].join(' ')}
               >
                 {link.label}
               </a>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { LANDING_PARALLAX_FACTOR } from '../constants/parallax'
 
 const painPoints = [
   'Horas improdutivas em entrevista',
@@ -19,8 +20,6 @@ const comparison = [
   { title: 'Professional Match', tagline: 'Rápido, assertivo e econômico', negative: false },
 ]
 
-const PARALLAX_PX = 0.1
-
 function useProfessionalMatchParallax() {
   const sectionRef = useRef(null)
   const rafRef = useRef(0)
@@ -38,7 +37,7 @@ function useProfessionalMatchParallax() {
       const r = el.getBoundingClientRect()
       const h = window.innerHeight
       const off = h / 2 - (r.top + r.height / 2)
-      const y = off * PARALLAX_PX
+      const y = off * LANDING_PARALLAX_FACTOR
       const c = Math.max(-56, Math.min(56, y))
       el.style.setProperty('--pm-parallax-y', `${c.toFixed(2)}px`)
     }

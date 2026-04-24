@@ -1,0 +1,1 @@
+export const LANDING_PARALLAX_FACTOR = 0.5
